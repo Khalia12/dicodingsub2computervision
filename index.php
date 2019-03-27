@@ -25,7 +25,6 @@
         // this region.
         var uriBase =
             "https://southeastasia.api.cognitive.microsoft.com/vision/v2.0/analyze";
- 	alert('something here');
         // Request parameters.
         var params = {
             "visualFeatures": "Categories,Description,Color",
@@ -41,6 +40,7 @@
             url: uriBase + "?" + $.param(params),
  
             // Request headers.
+	    
             beforeSend: function(xhrObj){
                 xhrObj.setRequestHeader("Content-Type","application/json");
                 xhrObj.setRequestHeader(
@@ -54,6 +54,7 @@
         })
  
         .done(function(data) {
+	    alert('something here');
             // Show formatted JSON on webpage.
 			result = JSON.stringify(data, null, 2);
 			var desc = JSON.parse(result).description.captions[0].text;
@@ -63,6 +64,7 @@
  
         .fail(function(jqXHR, textStatus, errorThrown) {
             // Display error message.
+	    alert('something terrible');
             var errorString = (errorThrown === "") ? "Error. " :
                 errorThrown + " (" + jqXHR.status + "): ";
             errorString += (jqXHR.responseText === "") ? "" :
