@@ -4,7 +4,7 @@
     <title>Image Analyzation</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 </head>
-<body style =  "padding:10px; font-family:'Arial'; background-color: RGB(235,233,194)">
+<body style =  "padding:'10px'; font-family:'Arial'; background-color: RGB(235,233,194)">
  
 <script type="text/javascript">
     function processImage() {
