@@ -25,7 +25,7 @@
         // this region.
         var uriBase =
             "https://southeastasia.api.cognitive.microsoft.com/vision/v2.0/analyze";
-	    
+ 
         // Request parameters.
         var params = {
             "visualFeatures": "Categories,Description,Color",
@@ -37,28 +37,37 @@
         var sourceImageUrl = "https://khaliasub2storageacc.blob.core.windows.net/dataset-blob/sample.jpg";
         
         // Make the REST API call.
-	 var getJSON = function(url, callback) {
-	    var xhr = new XMLHttpRequest();
-	    xhr.open('GET', url, true);
-	    xhr.responseType = 'json';
-	    xhr.onload = function() {
-	      var status = xhr.status;
-	      if (status === 200) {
-		callback(null, xhr.response);
-	      } else {
-		callback(status, xhr.response);
-	      }
-	    };
-	    xhr.send();
-	};
-	    
-    	getJSON(sourceImageUrl,function(err, data) {
-  	if (err !== null) {
-	    alert('Something went wrong: ' + err);
-	  } else {
-	    alert('Success');
-	  }
-	});)
+        $.ajax({
+            url: uriBase + "?" + $.param(params),
+ 
+            // Request headers.
+            beforeSend: function(xhrObj){
+                xhrObj.setRequestHeader("Content-Type","application/json");
+                xhrObj.setRequestHeader(
+                    "Ocp-Apim-Subscription-Key", subscriptionKey);
+            },
+ 
+            type: "POST",
+ 
+            // Request body.
+            data: '{"url": ' + '"' + sourceImageUrl + '"}',
+        })
+ 
+        .done(function(data) {
+            // Show formatted JSON on webpage.
+			result = JSON.stringify(data, null, 2);
+			var desc = JSON.parse(result).description.captions[0].text;
+            document.getElementById("desc").innerHTML = desc;
+        })
+ 
+        .fail(function(jqXHR, textStatus, errorThrown) {
+            // Display error message.
+            var errorString = (errorThrown === "") ? "Error. " :
+                errorThrown + " (" + jqXHR.status + "): ";
+            errorString += (jqXHR.responseText === "") ? "" :
+                jQuery.parseJSON(jqXHR.responseText).message;
+            alert(errorString);
+        });
     };
 </script>
  
