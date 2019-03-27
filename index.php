@@ -58,6 +58,7 @@
 			result = JSON.stringify(data, null, 2);
 			var desc = JSON.parse(result).description.captions[0].text;
             document.getElementById("desc").innerHTML = desc;
+	    alert(desc);
         })
  
         .fail(function(jqXHR, textStatus, errorThrown) {
